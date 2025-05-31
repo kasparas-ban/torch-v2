@@ -24,7 +24,7 @@ export function NavBar({ state, navigation }: BottomTabBarProps) {
       <View className="flex-row px-[5px] border border-gray-200/40 bg-gray-200/40 border-t overflow-hidden h-16 w-[104px] rounded-full mx-auto">
         <View
           className={cn(
-            "absolute w-12 top-2 bottom-2 bg-rose-200 rounded-full",
+            "absolute w-12 top-2 bottom-2 bg-rose-200/90 rounded-full",
             state.index === 0 && "left-2",
             state.index === 1 && "right-2"
           )}
