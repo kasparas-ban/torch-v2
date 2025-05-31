@@ -18,9 +18,9 @@ const ROUTES = [
   },
 ];
 
-export function TabBar({ state, navigation }: BottomTabBarProps) {
+export function NavBar({ state, navigation }: BottomTabBarProps) {
   return (
-    <View className="flex-row px-[5px] border border-gray-200 bg-gray-200/40 border-t overflow-hidden h-16 bottom-10 w-[104px] rounded-full mx-auto">
+    <View className="flex-row px-[5px] border border-gray-200/40 bg-gray-200/40 border-t overflow-hidden h-16 bottom-10 w-[104px] rounded-full mx-auto">
       <View
         className={cn(
           "absolute w-12 top-2 bottom-2 bg-rose-200 rounded-full",
