@@ -1,25 +1,24 @@
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
-
-import { GlobalBackground } from "@/components/global-background/global-background";
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { useColorScheme } from "@/hooks/useColorScheme"
+import { GlobalBackground } from "@/components/global-background/global-background"
+import "../global.css"
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
-} from "@react-navigation/native";
-import "../global.css";
+} from "@react-navigation/native"
+import { useFonts } from "expo-font"
+import { Stack } from "expo-router"
+import { StatusBar } from "expo-status-bar"
+import "react-native-reanimated"
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
+  })
 
   // Async font loading only occurs in development.
-  if (!loaded) return null;
+  if (!loaded) return null
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
@@ -33,5 +32,5 @@ export default function RootLayout() {
         <StatusBar style="auto" />
       </GlobalBackground>
     </ThemeProvider>
-  );
+  )
 }

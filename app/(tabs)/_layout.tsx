@@ -1,17 +1,13 @@
-import { Tabs } from "expo-router";
-import React from "react";
-
-import { NavBar } from "@/components/nav-bar/nav-bar";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { View } from "react-native";
+import React from "react"
+import { NavBar } from "@/components/nav-bar/nav-bar"
+import { Tabs } from "expo-router"
+import { View } from "react-native"
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <View className="flex-1 bg-green-500">
+    <View className="flex-1">
       <Tabs
-        tabBar={(props) => <NavBar {...props} />}
+        tabBar={props => <NavBar {...props} />}
         screenOptions={{ headerShown: false }}
       >
         <Tabs.Screen
@@ -24,5 +20,5 @@ export default function TabLayout() {
         />
       </Tabs>
     </View>
-  );
+  )
 }
