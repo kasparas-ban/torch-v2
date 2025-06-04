@@ -1,24 +1,9 @@
-import { ThemedText } from "@/components/ThemedText"
-import { ThemedView } from "@/components/ThemedView"
-import { StyleSheet } from "react-native"
+import { Text, View } from "react-native"
 
 export default function PlanScreen() {
   return (
-    <ThemedView style={styles.titleContainer}>
-      <ThemedText type="title">Plan</ThemedText>
-    </ThemedView>
+    <View className="flex-1 bg-amber-100">
+      <Text>Plan</Text>
+    </View>
   )
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
-  },
-  titleContainer: {
-    flexDirection: "row",
-    gap: 8,
-  },
-})
