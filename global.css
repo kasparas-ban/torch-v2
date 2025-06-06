@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Set Lexend as the default font family */
+@layer base {
+  * {
+    font-family: "Lexend-Regular", sans-serif;
+  }
+
+  /* Font weight variants */
+  .font-medium {
+    font-family: "Lexend-Medium", sans-serif;
+  }
+
+  .font-bold,
+  .font-semibold,
+  .font-extrabold,
+  .font-black {
+    font-family: "Lexend-Bold", sans-serif;
+  }
+}
