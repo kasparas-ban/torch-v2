@@ -2,6 +2,7 @@ import React, { useCallback } from "react"
 import { GestureResponderEvent, Pressable, PressableProps } from "react-native"
 import Animated, {
   AnimatedProps,
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -29,18 +30,22 @@ export default function AnimatedButton(props: Props) {
   const handlePressIn = useCallback(() => {
     scale.value = withTiming(targetScale, {
       duration: 100,
+      easing: Easing.out(Easing.quad),
     })
     opacity.value = withTiming(targetOpacity, {
       duration: 100,
+      easing: Easing.out(Easing.quad),
     })
   }, [targetScale, targetOpacity])
 
   const handlePressOut = useCallback(() => {
     scale.value = withTiming(1, {
       duration: 100,
+      easing: Easing.out(Easing.quad),
     })
     opacity.value = withTiming(1, {
       duration: 100,
+      easing: Easing.out(Easing.quad),
     })
   }, [])
 
