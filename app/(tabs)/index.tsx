@@ -1,21 +1,18 @@
-import { useEffect } from "react"
-import { useGlobalTimer } from "@/components/clock/useTimer1"
+import Clock from "@/components/clock/clock"
 import { View } from "react-native"
 
 export default function TimerScreen() {
   // const { isPlaying, remainingTime, duration } = useTimer()
 
-  const timer = useGlobalTimer()
+  // console.log(timer.getRemainingTime())
 
-  console.log(timer.getRemainingTime())
-
-  useEffect(() => {
-    timer.start()
-  }, [])
+  // useEffect(() => {
+  //   timer.start()
+  // }, [])
 
   return (
     <View className="flex-1 bg-gray-700 items-center justify-center">
-      {/* <Clock /> */}
+      <Clock />
       {/* <CountdownCircleTimer
           isPlaying
           duration={10}

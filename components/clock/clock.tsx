@@ -1,4 +1,5 @@
-import { useCountdown } from "./useCountdown"
+import AnimatedButton from "../animated-button/animated-button"
+import useTimerStore from "@/stores/timer-store"
 import {
   Canvas,
   Circle,
@@ -104,7 +105,16 @@ type CountdownCircleTimerProps = {
 const PATH_COLOR = colors.gray[200]
 const STROKE_WIDTH = 12
 
-function CountdownCircleTimer({
+export default function Clock() {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <CountdownClockCircle size={SIZE} duration={DURATION} elapsedTime={0} />
+      <TimerControls />
+    </View>
+  )
+}
+
+function CountdownClockCircle({
   size,
   duration,
   elapsedTime,
@@ -168,13 +178,15 @@ function CountdownCircleTimer({
           pointerEvents: "none",
         }}
       >
-        <TimerTime time={10} />
+        <TimerTime />
       </View>
     </View>
   )
 }
 
-function TimerTime({ time }: { time: number }) {
+function TimerTime() {
+  const timeRemaining = useTimerStore(state => state.timeRemaining)
+
   return (
     <Text
       style={{
@@ -184,13 +196,33 @@ function TimerTime({ time }: { time: number }) {
         textAlign: "center",
       }}
     >
-      {time}
+      {timeRemaining}
     </Text>
+  )
+}
+
+function TimerControls() {
+  const startTimer = useTimerStore(state => state.startTimer)
+  const pauseTimer = useTimerStore(state => state.pauseTimer)
+
+  return (
+    <View className="flex-row items-center justify-center">
+      <AnimatedButton
+        className="bg-white px-6 py-3 rounded-full w-min"
+        onPress={startTimer}
+      >
+        <Text className="text-gray-800 text-lg tracking-wider">Start</Text>
+      </AnimatedButton>
+      <AnimatedButton
+        className="bg-white px-6 py-3 rounded-full w-min"
+        onPress={pauseTimer}
+      >
+        <Text className="text-gray-800 text-lg tracking-wider">Pause</Text>
+      </AnimatedButton>
+    </View>
   )
 }
 
 function useTimerPath() {
   return { path: "", strokeDashoffset: 10, pathLength: 10 }
 }
-
-export { CountdownCircleTimer, useCountdown }
