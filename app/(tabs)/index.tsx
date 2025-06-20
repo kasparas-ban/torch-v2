@@ -1,12 +1,22 @@
-import { CountdownCircleTimer } from "@/components/clock/clock"
-import { Text, View } from "react-native"
-import colors from "tailwindcss/colors"
+import { useEffect } from "react"
+import { useGlobalTimer } from "@/components/clock/useTimer1"
+import { View } from "react-native"
 
 export default function TimerScreen() {
+  // const { isPlaying, remainingTime, duration } = useTimer()
+
+  const timer = useGlobalTimer()
+
+  console.log(timer.getRemainingTime())
+
+  useEffect(() => {
+    timer.start()
+  }, [])
+
   return (
     <View className="flex-1 bg-gray-700 items-center justify-center">
-      <View>
-        <CountdownCircleTimer
+      {/* <Clock /> */}
+      {/* <CountdownCircleTimer
           isPlaying
           duration={10}
           size={300}
@@ -28,8 +38,7 @@ export default function TimerScreen() {
               </Text>
             </View>
           )}
-        </CountdownCircleTimer>
-      </View>
+        </CountdownCircleTimer> */}
     </View>
   )
 }
