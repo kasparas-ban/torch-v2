@@ -1,6 +1,7 @@
 import { TimerState } from "@/types/timer-types"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { StateCreator, create } from "zustand"
-import { devtools, persist } from "zustand/middleware"
+import { createJSONStorage, devtools, persist } from "zustand/middleware"
 
 interface TimerStore {
   // Core timer state
@@ -41,7 +42,7 @@ const middlewares = (f: StateCreator<TimerStore>) =>
   devtools(
     persist(f, {
       name: "timer-store",
-      // storage: createJSONStorage(() => AsyncStorage),
+      storage: createJSONStorage(() => AsyncStorage),
     })
   )
 

@@ -202,23 +202,39 @@ function TimerTime() {
 }
 
 function TimerControls() {
+  const timerState = useTimerStore(state => state.timerState)
   const startTimer = useTimerStore(state => state.startTimer)
   const pauseTimer = useTimerStore(state => state.pauseTimer)
+  const stopTimer = useTimerStore(state => state.endTimer)
 
   return (
-    <View className="flex-row items-center justify-center">
-      <AnimatedButton
-        className="bg-white px-6 py-3 rounded-full w-min"
-        onPress={startTimer}
-      >
-        <Text className="text-gray-800 text-lg tracking-wider">Start</Text>
-      </AnimatedButton>
-      <AnimatedButton
-        className="bg-white px-6 py-3 rounded-full w-min"
-        onPress={pauseTimer}
-      >
-        <Text className="text-gray-800 text-lg tracking-wider">Pause</Text>
-      </AnimatedButton>
+    <View className="flex-row gap-4">
+      {timerState !== "running" && (
+        <AnimatedButton
+          className="bg-white px-6 py-3 rounded-full w-min"
+          onPress={startTimer}
+        >
+          <Text className="text-gray-800 text-lg tracking-wider">
+            {timerState === "idle" ? "Start" : "Resume"}
+          </Text>
+        </AnimatedButton>
+      )}
+      {timerState === "running" && (
+        <AnimatedButton
+          className="bg-white px-6 py-3 rounded-full w-min"
+          onPress={pauseTimer}
+        >
+          <Text className="text-gray-800 text-lg tracking-wider">Pause</Text>
+        </AnimatedButton>
+      )}
+      {timerState === "paused" && (
+        <AnimatedButton
+          className="bg-white px-6 py-3 rounded-full w-min"
+          onPress={stopTimer}
+        >
+          <Text className="text-gray-800 text-lg tracking-wider">Reset</Text>
+        </AnimatedButton>
+      )}
     </View>
   )
 }
