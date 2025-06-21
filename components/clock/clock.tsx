@@ -1,4 +1,5 @@
 import AnimatedButton from "../animated-button/animated-button"
+import { getPathProps, linearEase } from "./utils"
 import useTimerStore from "@/stores/timer-store"
 import {
   Canvas,
@@ -8,12 +9,8 @@ import {
   SweepGradient,
   vec,
 } from "@shopify/react-native-skia"
-import { StyleSheet, Text, View } from "react-native"
+import { Text, View } from "react-native"
 import colors from "tailwindcss/colors"
-
-const DURATION = 10
-const SIZE = 300
-const rotation = "counterclockwise"
 
 // const CountdownCircleTimer = (props: Props) => {
 //   const { children, duration, strokeLinecap, trailColor, trailStrokeWidth } =
@@ -96,37 +93,36 @@ const rotation = "counterclockwise"
 
 // CountdownCircleTimer.displayName = "CountdownCircleTimer"
 
-type CountdownCircleTimerProps = {
-  size: number
-  duration: number
-  elapsedTime: number
-}
-
 const PATH_COLOR = colors.gray[200]
 const STROKE_WIDTH = 12
+const SIZE = 300
+const ROTATION = "counterclockwise"
 
 export default function Clock() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <CountdownClockCircle size={SIZE} duration={DURATION} elapsedTime={0} />
+    <View className="flex justify-center items-center gap-8">
+      <CountdownClockCircle size={SIZE} />
       <TimerControls />
     </View>
   )
 }
 
-function CountdownClockCircle({
-  size,
-  duration,
-  elapsedTime,
-}: CountdownCircleTimerProps) {
-  const { path, strokeDashoffset, pathLength } = useTimerPath()
+function CountdownClockCircle({ size }: { size: number }) {
+  const duration = useTimerStore(state => state.initialWorkTime)
+  const elapsedTime = useTimerStore(state => state.timeRemaining)
+  const { path, strokeDashoffset, pathLength } = useTimerPath({
+    elapsedTime,
+    duration,
+  })
+
+  console.log("PATH", path)
 
   // Starting to rotate from -85 degrees
   const rotationAngle =
     (-85 * Math.PI) / 180 + (elapsedTime / duration) * 2 * Math.PI
 
   return (
-    <View style={{ position: "relative" }}>
+    <View className="relative">
       <Canvas
         style={{
           position: "relative",
@@ -170,14 +166,8 @@ function CountdownClockCircle({
           </Mask>
         )}
       </Canvas>
-      <View
-        style={{
-          ...StyleSheet.absoluteFillObject,
-          justifyContent: "center",
-          alignItems: "center",
-          pointerEvents: "none",
-        }}
-      >
+
+      <View className="absolute inset-0 justify-center items-center">
         <TimerTime />
       </View>
     </View>
@@ -188,14 +178,7 @@ function TimerTime() {
   const timeRemaining = useTimerStore(state => state.timeRemaining)
 
   return (
-    <Text
-      style={{
-        color: "white",
-        fontSize: 48,
-        fontWeight: "bold",
-        textAlign: "center",
-      }}
-    >
+    <Text className="text-white text-7xl font-bold text-center">
       {timeRemaining}
     </Text>
   )
@@ -211,34 +194,64 @@ function TimerControls() {
     <View className="flex-row gap-4">
       {timerState !== "running" && (
         <AnimatedButton
-          className="bg-white px-6 py-3 rounded-full w-min"
+          className="bg-white px-6 py-3 rounded-full w-[112px] items-center"
           onPress={startTimer}
         >
-          <Text className="text-gray-800 text-lg tracking-wider">
-            {timerState === "idle" ? "Start" : "Resume"}
+          <Text className="text-gray-800 text-lg tracking-wider font-[500]">
+            {timerState === "idle" ? "Start" : "Continue"}
           </Text>
         </AnimatedButton>
       )}
       {timerState === "running" && (
         <AnimatedButton
-          className="bg-white px-6 py-3 rounded-full w-min"
+          className="bg-white px-6 py-3 rounded-full w-[112px] items-center"
           onPress={pauseTimer}
         >
-          <Text className="text-gray-800 text-lg tracking-wider">Pause</Text>
+          <Text className="text-gray-800 text-lg tracking-wider font-[500]">
+            Pause
+          </Text>
         </AnimatedButton>
       )}
       {timerState === "paused" && (
         <AnimatedButton
-          className="bg-white px-6 py-3 rounded-full w-min"
+          className="bg-white px-6 py-3 rounded-full w-[112px] items-center"
           onPress={stopTimer}
         >
-          <Text className="text-gray-800 text-lg tracking-wider">Reset</Text>
+          <Text className="text-gray-800 text-lg tracking-wider font-[500]">
+            Stop
+          </Text>
         </AnimatedButton>
       )}
     </View>
   )
 }
 
-function useTimerPath() {
-  return { path: "", strokeDashoffset: 10, pathLength: 10 }
+type UseTimerPathProps = {
+  elapsedTime: number
+  duration: number
+  isGrowing?: boolean
+  size?: number
+  maxStrokeWidth?: number
+  rotation?: "clockwise" | "counterclockwise"
+}
+
+function useTimerPath({
+  elapsedTime,
+  duration,
+  isGrowing = true,
+  size = SIZE,
+  maxStrokeWidth = STROKE_WIDTH,
+  rotation = ROTATION,
+}: UseTimerPathProps) {
+  const { path, pathLength } = getPathProps(size, maxStrokeWidth, rotation)
+
+  const strokeDashoffset = linearEase(
+    elapsedTime,
+    0,
+    pathLength,
+    duration,
+    isGrowing
+  )
+
+  return { path, strokeDashoffset, pathLength }
 }

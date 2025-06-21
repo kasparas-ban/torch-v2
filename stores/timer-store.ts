@@ -18,7 +18,7 @@ interface TimerStore {
   // Internal state for drift correction
   // We use `targetTime` to know when the timer should officially end.
   targetTime: number | null
-  timeoutId?: NodeJS.Timeout
+  timeoutId?: number
 
   // Actions
   startTimer: () => void
@@ -29,7 +29,7 @@ interface TimerStore {
 }
 
 // --- Configuration Constants ---
-const DEFAULT_WORK_MINS = 25
+const DEFAULT_WORK_MINS = 1
 const DEFAULT_BREAK_MINS = 5
 const DEFAULT_LONG_BREAK_MINS = 15
 const DEFAULT_SESSION_COUNT = 3

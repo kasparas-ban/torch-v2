@@ -66,3 +66,18 @@ export const getIsColorBetweenColors = (
     getIsInRange(c, startRGB[index], endRGB[index])
   )
 }
+
+export const linearEase = (
+  time: number,
+  start: number,
+  goal: number,
+  duration: number,
+  isGrowing: boolean
+) => {
+  if (duration === 0) {
+    return start
+  }
+
+  const currentTime = (isGrowing ? duration - time : time) / duration
+  return start + goal * currentTime
+}
