@@ -8,6 +8,7 @@ interface TimerStore {
   timeRemaining: number
   timerState: TimerState
   isBreak: boolean
+  totalTime: number
 
   // Configuration
   initialWorkTime: number
@@ -52,6 +53,7 @@ const useTimerStore = create<TimerStore>()(
     timeRemaining: workSeconds,
     timerState: "idle",
     isBreak: false,
+    totalTime: workSeconds,
 
     initialWorkTime: workSeconds,
     initialBreakTime: breakSeconds,
@@ -111,6 +113,7 @@ const useTimerStore = create<TimerStore>()(
 
       set({
         timeRemaining: newTime,
+        totalTime: newTime,
         timerState: "idle",
         isBreak: nextIsBreak,
         timeoutId: undefined,
