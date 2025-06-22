@@ -4,8 +4,8 @@ import useTimerStore from "@/stores/timer-store"
 import { Text, View } from "react-native"
 import Animated, { Easing, LinearTransition } from "react-native-reanimated"
 
-const CustomFadeIn = FadeIn(0.7)
-const CustomFadeOut = FadeOut(0.7)
+const CustomFadeIn = FadeIn({ scale: 0.7 })
+const CustomFadeOut = FadeOut({ scale: 0.7 })
 
 const LayoutAnim = LinearTransition.easing(Easing.out(Easing.ease)).duration(
   150
@@ -38,7 +38,7 @@ export default function ClockControls() {
       {timerState === "running" && (
         <Animated.View
           layout={LayoutAnim}
-          entering={CustomFadeIn}
+          entering={FadeIn({ scale: 0.7, delay: 50 })}
           exiting={CustomFadeOut}
         >
           <AnimatedButton

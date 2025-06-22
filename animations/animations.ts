@@ -1,7 +1,17 @@
-import { Easing, withTiming } from "react-native-reanimated"
+import { Easing, withDelay, withTiming } from "react-native-reanimated"
 
 export const FadeIn =
-  (scale: number = 0.6, opacity: number = 1, duration: number = 200) =>
+  ({
+    scale = 0.6,
+    opacity = 1,
+    duration = 200,
+    delay = 0,
+  }: {
+    scale?: number
+    opacity?: number
+    duration?: number
+    delay?: number
+  }) =>
   () => {
     "worklet"
 
@@ -11,16 +21,22 @@ export const FadeIn =
     }
 
     const animations = {
-      opacity: withTiming(opacity, {
-        duration,
-        easing: Easing.out(Easing.ease),
-      }),
+      opacity: withDelay(
+        delay,
+        withTiming(opacity, {
+          duration,
+          easing: Easing.out(Easing.ease),
+        })
+      ),
       transform: [
         {
-          scale: withTiming(1, {
-            duration,
-            easing: Easing.out(Easing.ease),
-          }),
+          scale: withDelay(
+            delay,
+            withTiming(1, {
+              duration,
+              easing: Easing.out(Easing.ease),
+            })
+          ),
         },
       ],
     }
@@ -32,7 +48,17 @@ export const FadeIn =
   }
 
 export const FadeOut =
-  (scale: number = 0.6, opacity: number = 0, duration: number = 200) =>
+  ({
+    scale = 0.6,
+    opacity = 0,
+    duration = 200,
+    delay = 0,
+  }: {
+    scale?: number
+    opacity?: number
+    duration?: number
+    delay?: number
+  } = {}) =>
   () => {
     "worklet"
 
@@ -42,16 +68,22 @@ export const FadeOut =
     }
 
     const animations = {
-      opacity: withTiming(opacity, {
-        duration,
-        easing: Easing.out(Easing.ease),
-      }),
+      opacity: withDelay(
+        delay,
+        withTiming(opacity, {
+          duration,
+          easing: Easing.out(Easing.ease),
+        })
+      ),
       transform: [
         {
-          scale: withTiming(scale, {
-            duration,
-            easing: Easing.out(Easing.ease),
-          }),
+          scale: withDelay(
+            delay,
+            withTiming(scale, {
+              duration,
+              easing: Easing.out(Easing.ease),
+            })
+          ),
         },
       ],
     }
