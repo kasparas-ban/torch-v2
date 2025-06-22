@@ -1,9 +1,10 @@
 import { useEffect } from "react"
 import ClockControls from "./clock-controls"
+import TimeText from "./time-text"
 import { getPathProps } from "./utils"
 import useTimerStore from "@/stores/timer-store"
 import { Canvas, Path } from "@shopify/react-native-skia"
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import {
   Easing,
   useDerivedValue,
@@ -74,18 +75,8 @@ function CountdownClockCircle({ size }: { size: number }) {
       </Canvas>
 
       <View className="absolute inset-0 justify-center items-center">
-        <TimerTime />
+        <TimeText />
       </View>
     </View>
-  )
-}
-
-function TimerTime() {
-  const timeRemaining = useTimerStore(state => state.timeRemaining)
-
-  return (
-    <Text className="text-white text-7xl font-bold text-center">
-      {timeRemaining}
-    </Text>
   )
 }
