@@ -1,5 +1,5 @@
 import AnimatedButton from "../animated-button/animated-button"
-import { FadeIn, FadeOut } from "@/animations/animations"
+import { FadeIn, FadeOut } from "@/animations/pressable"
 import useTimerStore from "@/stores/timer-store"
 import { Text, View } from "react-native"
 import Animated, { Easing, LinearTransition } from "react-native-reanimated"
