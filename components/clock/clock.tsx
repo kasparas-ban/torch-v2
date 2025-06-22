@@ -2,14 +2,7 @@ import { useEffect } from "react"
 import ClockControls from "./clock-controls"
 import { getPathProps } from "./utils"
 import useTimerStore from "@/stores/timer-store"
-import {
-  Canvas,
-  Circle,
-  Mask,
-  Path,
-  SweepGradient,
-  vec,
-} from "@shopify/react-native-skia"
+import { Canvas, Path } from "@shopify/react-native-skia"
 import { Text, View } from "react-native"
 import {
   Easing,
@@ -46,13 +39,9 @@ function CountdownClockCircle({ size }: { size: number }) {
     return 1 - progress.value
   })
 
-  const animatedRotation = useDerivedValue(() => {
-    return [{ rotate: progress.value * 2 * Math.PI }]
-  })
-
   useEffect(() => {
     progress.value = withTiming(elapsedTime / duration, {
-      duration: 1000,
+      duration: elapsedTime === 0 ? 300 : 1000,
       easing: Easing.linear,
     })
   }, [elapsedTime, duration, progress])
@@ -72,35 +61,16 @@ function CountdownClockCircle({ size }: { size: number }) {
           strokeWidth={STROKE_WIDTH}
           style="stroke"
         />
-        {elapsedTime !== duration && (
-          <Mask
-            mask={
-              <Path
-                path={path}
-                strokeCap="round"
-                strokeWidth={STROKE_WIDTH}
-                start={0}
-                end={animatedPathEnd}
-                style="stroke"
-              />
-            }
-          >
-            <Circle
-              cx={size / 2}
-              cy={size / 2}
-              r={size / 2}
-              transform={animatedRotation}
-              origin={vec(size / 2, size / 2)}
-            >
-              <SweepGradient
-                c={vec(size / 2, size / 2)}
-                colors={["#06b6d4", "#f59e42"]}
-                start={0}
-                end={360}
-              />
-            </Circle>
-          </Mask>
-        )}
+
+        <Path
+          path={path}
+          strokeCap="round"
+          strokeWidth={STROKE_WIDTH}
+          start={0}
+          end={animatedPathEnd}
+          style="stroke"
+          color="#FF4747"
+        />
       </Canvas>
 
       <View className="absolute inset-0 justify-center items-center">
