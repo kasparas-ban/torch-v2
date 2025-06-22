@@ -2,6 +2,7 @@ import { Easing, withDelay, withTiming } from "react-native-reanimated"
 
 const DURATION = 150
 const TRANSLATE_Y = 40
+const BLUR = 5
 
 export const DigitFadeIn =
   (delay: number = 0) =>
@@ -11,6 +12,7 @@ export const DigitFadeIn =
     const initialValues = {
       opacity: 0,
       transform: [{ translateY: TRANSLATE_Y }],
+      filter: [{ blur: BLUR }],
     }
 
     const animations = {
@@ -24,6 +26,17 @@ export const DigitFadeIn =
       transform: [
         {
           translateY: withDelay(
+            delay,
+            withTiming(0, {
+              duration: DURATION,
+              easing: Easing.out(Easing.ease),
+            })
+          ),
+        },
+      ],
+      filter: [
+        {
+          blur: withDelay(
             delay,
             withTiming(0, {
               duration: DURATION,
@@ -48,6 +61,7 @@ export const DigitFadeOut =
     const initialValues = {
       opacity: 1,
       transform: [{ translateY: 0 }],
+      filter: [{ blur: 0 }],
     }
 
     const animations = {
@@ -63,6 +77,17 @@ export const DigitFadeOut =
           translateY: withDelay(
             delay,
             withTiming(-TRANSLATE_Y, {
+              duration: DURATION,
+              easing: Easing.out(Easing.ease),
+            })
+          ),
+        },
+      ],
+      filter: [
+        {
+          blur: withDelay(
+            delay,
+            withTiming(BLUR, {
               duration: DURATION,
               easing: Easing.out(Easing.ease),
             })
